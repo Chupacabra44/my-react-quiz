@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Answers from "./Answers";
 import Question from "./Question";
+import Results from "./Results";
 import { data } from "../data";
 
 const Quiz = () => {
@@ -27,19 +28,27 @@ const Quiz = () => {
     setShuffledAnswers(shuffleAnswers(answers));
   }, [currentQuestion]);
 
+  const allQuestionsDone = currentIndex >= data.length - 1;
+
   return (
     <>
-      <h1>Question</h1>
-      <Question currentQuestion={currentQuestion} />
-      <Answers shuffledAnswers={shuffledAnswers} />
-      <div className="btnWrapper">
-        <button
-          onClick={() => setCurrentIndex((prev) => prev + 1)}
-          disabled={currentIndex >= data.length - 1}
-        >
-          Next Question
-        </button>
-      </div>
+      {!allQuestionsDone ? (
+        <>
+          <h1>Question</h1>
+          <Question currentQuestion={currentQuestion} />
+          <Answers shuffledAnswers={shuffledAnswers} />
+          <div className="btnWrapper">
+            <button
+              onClick={() => setCurrentIndex((prev) => prev + 1)}
+              disabled={allQuestionsDone}
+            >
+              Next Question
+            </button>
+          </div>
+        </>
+      ) : (
+        <Results />
+      )}
     </>
   );
 };

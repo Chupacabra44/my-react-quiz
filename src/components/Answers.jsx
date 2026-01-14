@@ -1,4 +1,5 @@
 const Answers = ({ shuffledAnswers }) => {
+  // console.log(shuffledAnswers);
   return (
     <div>
       <div className="answers">
