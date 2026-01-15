@@ -5,6 +5,8 @@ const Answers = ({
   setIsAnswered,
   setIsCorrectAnswer,
 }) => {
+  const letters = ["A", "B", "C", "D"];
+
   return (
     <div>
       <div className="answers">
@@ -29,7 +31,7 @@ const Answers = ({
               key={index}
               className={className}
             >
-              <span>A</span>
+              <span>{letters[index]}</span>
               <span>{answer.text}</span>
             </div>
           );
