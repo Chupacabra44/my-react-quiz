@@ -44,6 +44,14 @@ const Quiz = () => {
   }, [currentIndex]);
 
   const allQuestionsDone = currentIndex >= data.length - 1;
+
+  const restartQuiz = () => {
+    setCurrentIndex(0);
+    setSelectedAnswer(null);
+    setIsAnswered(false);
+    setIsCorrectAnswer(0);
+  };
+
   return (
     <>
       {!allQuestionsDone ? (
@@ -70,6 +78,7 @@ const Quiz = () => {
         <Results
           currentIndex={currentIndex}
           isCorrectAnswer={isCorrectAnswer}
+          restartQuiz={restartQuiz}
         />
       )}
     </>

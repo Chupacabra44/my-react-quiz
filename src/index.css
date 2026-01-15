@@ -133,7 +133,22 @@
 }
 
 .resultWrapper p {
+  font-size: 3rem;
+  margin-top: 30px;
+}
+
+.resultWrapper button {
   font-size: 2rem;
+  margin-top: 30px;
+  padding: 20px 40px;
+  border-radius: 10px;
+}
+
+.disappointed,
+.littleDisappointed,
+.start {
+  margin-top: 50px;
+  width: 200px;
 }
 
 .pyro {
