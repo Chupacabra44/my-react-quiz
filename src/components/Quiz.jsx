@@ -2,24 +2,32 @@ import { useState, useEffect } from "react";
 import Answers from "./Answers";
 import Question from "./Question";
 import Results from "./Results";
-import { data } from "../data";
 
 const Quiz = () => {
+  const [dataApi, setDataApi] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
-  const currentQuestion = data[currentIndex];
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isAnswered, setIsAnswered] = useState(true);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(0);
 
-  const shuffleAnswers = (answers) => {
-    const newAnswers = [...answers];
-    for (let i = newAnswers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newAnswers[i], newAnswers[j]] = [newAnswers[j], newAnswers[i]];
+  const getData = async () => {
+    try {
+      const response = await fetch(
+        "https://opentdb.com/api.php?amount=10&category=27&difficulty=easy&type=multiple"
+      );
+      const data = await response.json();
+      setDataApi(data.results);
+    } catch (error) {
+      console.log(error);
     }
-    return newAnswers;
   };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const currentQuestion = dataApi?.[currentIndex];
 
   useEffect(() => {
     if (!currentQuestion) return;
@@ -43,7 +51,16 @@ const Quiz = () => {
     setIsAnswered(false);
   }, [currentIndex]);
 
-  const allQuestionsDone = currentIndex >= data.length - 1;
+  const shuffleAnswers = (answers) => {
+    const newAnswers = [...answers];
+    for (let i = newAnswers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newAnswers[i], newAnswers[j]] = [newAnswers[j], newAnswers[i]];
+    }
+    return newAnswers;
+  };
+
+  const allQuestionsDone = currentIndex >= dataApi?.length - 1;
 
   const restartQuiz = () => {
     setCurrentIndex(0);

@@ -2,7 +2,7 @@ const Question = ({ currentQuestion }) => {
   return (
     <div className="questions">
       <div className="question">
-        <span>{currentQuestion.question}</span>
+        <span>{currentQuestion?.question || ""}</span>
       </div>
     </div>
   );
