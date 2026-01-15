@@ -1,14 +1,25 @@
-const Answers = ({ shuffledAnswers }) => {
-  // console.log(shuffledAnswers);
+const Answers = ({ shuffledAnswers, selectedAnswer, setSelectedAnswer }) => {
+  console.log(shuffledAnswers);
   return (
     <div>
       <div className="answers">
-        {shuffledAnswers.map((answer, index) => (
-          <div key={index} className="answer">
-            <span>A</span>
-            <span>{answer}</span>
-          </div>
-        ))}
+        {shuffledAnswers.map((answer, index) => {
+          let className = "answer";
+          if (selectedAnswer === answer) {
+            className += answer.isCorrect ? " correct" : " incorrect";
+          }
+
+          return (
+            <div
+              onClick={() => setSelectedAnswer(answer)}
+              key={index}
+              className={className}
+            >
+              <span>A</span>
+              <span>{answer.text}</span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

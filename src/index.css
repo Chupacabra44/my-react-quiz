@@ -100,6 +100,24 @@
   background-color: rgb(66, 2, 186);
 }
 
+.answer {
+  border: 2px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}
+
+.answer.correct {
+  border-color: green;
+  background-color: #e6ffe6;
+}
+
+.answer.incorrect {
+  border-color: red;
+  background-color: #ffe6e6;
+}
+
 @media screen and (max-width: 768px) {
   .answers {
     flex-direction: column;
