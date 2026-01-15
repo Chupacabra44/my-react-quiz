@@ -3,6 +3,7 @@ const Answers = ({
   selectedAnswer,
   setSelectedAnswer,
   setIsAnswered,
+  setIsCorrectAnswer,
 }) => {
   return (
     <div>
@@ -19,6 +20,10 @@ const Answers = ({
                 if (!selectedAnswer) {
                   setSelectedAnswer(answer);
                   setIsAnswered(true);
+                }
+
+                if (answer.isCorrect) {
+                  setIsCorrectAnswer((prev) => prev + 1);
                 }
               }}
               key={index}

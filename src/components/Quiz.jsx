@@ -10,6 +10,7 @@ const Quiz = () => {
   const currentQuestion = data[currentIndex];
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isAnswered, setIsAnswered] = useState(true);
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(0);
 
   const shuffleAnswers = (answers) => {
     const newAnswers = [...answers];
@@ -33,6 +34,7 @@ const Quiz = () => {
         isCorrect: true,
       },
     ];
+
     setShuffledAnswers(shuffleAnswers(answers));
   }, [currentQuestion]);
 
@@ -42,7 +44,6 @@ const Quiz = () => {
   }, [currentIndex]);
 
   const allQuestionsDone = currentIndex >= data.length - 1;
-
   return (
     <>
       {!allQuestionsDone ? (
@@ -54,6 +55,7 @@ const Quiz = () => {
             selectedAnswer={selectedAnswer}
             setSelectedAnswer={setSelectedAnswer}
             setIsAnswered={setIsAnswered}
+            setIsCorrectAnswer={setIsCorrectAnswer}
           />
           <div className="btnWrapper">
             <button
@@ -65,7 +67,10 @@ const Quiz = () => {
           </div>
         </>
       ) : (
-        <Results />
+        <Results
+          currentIndex={currentIndex}
+          isCorrectAnswer={isCorrectAnswer}
+        />
       )}
     </>
   );
