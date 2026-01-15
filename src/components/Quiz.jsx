@@ -48,7 +48,7 @@ const Quiz = () => {
     <>
       {!allQuestionsDone ? (
         <>
-          <h1>Question</h1>
+          <h1>Question {currentIndex + 1}</h1>
           <Question currentQuestion={currentQuestion} />
           <Answers
             shuffledAnswers={shuffledAnswers}
