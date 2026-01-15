@@ -9,7 +9,7 @@ const Quiz = () => {
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
   const currentQuestion = data[currentIndex];
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [isTrue, setIsTrue] = useState(true);
+  const [isAnswered, setIsAnswered] = useState(true);
 
   const shuffleAnswers = (answers) => {
     const newAnswers = [...answers];
@@ -38,6 +38,7 @@ const Quiz = () => {
 
   useEffect(() => {
     setSelectedAnswer(null);
+    setIsAnswered(false);
   }, [currentIndex]);
 
   const allQuestionsDone = currentIndex >= data.length - 1;
@@ -52,11 +53,12 @@ const Quiz = () => {
             shuffledAnswers={shuffledAnswers}
             selectedAnswer={selectedAnswer}
             setSelectedAnswer={setSelectedAnswer}
+            setIsAnswered={setIsAnswered}
           />
           <div className="btnWrapper">
             <button
               onClick={() => setCurrentIndex((prev) => prev + 1)}
-              disabled={allQuestionsDone}
+              disabled={!isAnswered}
             >
               Next Question
             </button>

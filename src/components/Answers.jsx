@@ -1,5 +1,9 @@
-const Answers = ({ shuffledAnswers, selectedAnswer, setSelectedAnswer }) => {
-  console.log(shuffledAnswers);
+const Answers = ({
+  shuffledAnswers,
+  selectedAnswer,
+  setSelectedAnswer,
+  setIsAnswered,
+}) => {
   return (
     <div>
       <div className="answers">
@@ -11,7 +15,12 @@ const Answers = ({ shuffledAnswers, selectedAnswer, setSelectedAnswer }) => {
 
           return (
             <div
-              onClick={() => setSelectedAnswer(answer)}
+              onClick={() => {
+                if (!selectedAnswer) {
+                  setSelectedAnswer(answer);
+                  setIsAnswered(true);
+                }
+              }}
               key={index}
               className={className}
             >
