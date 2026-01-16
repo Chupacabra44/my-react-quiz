@@ -33,7 +33,9 @@ const Results = ({ isCorrectAnswer, currentIndex, restartQuiz }) => {
         <div className="before"></div>
         <div className="after"></div>
       </div>
-      <button onClick={restartQuiz}>Restart</button>
+      <button className="restartBtn" onClick={restartQuiz}>
+        Restart
+      </button>
     </div>
   );
 };
