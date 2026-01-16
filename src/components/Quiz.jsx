@@ -75,7 +75,7 @@ const Quiz = () => {
   }, [currentIndex]);
 
   if (!dataApi.length) {
-    return <p>Loading questions...</p>;
+    return <p className="loading">Loading questions ...</p>;
   }
 
   const allQuestionsDone = currentIndex >= dataApi.length - 1;
