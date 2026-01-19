@@ -36,6 +36,10 @@
   max-width: 800px;
 }
 
+.select {
+  margin-bottom: 50px;
+}
+
 .answers {
   width: 100%;
   display: flex;

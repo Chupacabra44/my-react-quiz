@@ -5,19 +5,47 @@ import Results from "./Results";
 import { decodeHtml } from "../helpers";
 
 const Quiz = () => {
+  const [selectedCategory, setSelectedCategory] = useState(9);
+  const [categories, setCategories] = useState([]);
   const [dataApi, setDataApi] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(0);
+  const [categoryLocked, setCategoryLocked] = useState(false);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const getCategories = async () => {
+      try {
+        const response = await fetch("https://opentdb.com/api_category.php", {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error("API category error");
+        }
+
+        const dataCategory = await response.json();
+        setCategories(dataCategory.trivia_categories);
+      } catch (error) {
+        if (error.name !== "AbortErrorCategory") {
+          console.error(error);
+        }
+      }
+    };
+
+    getCategories();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedCategory) return;
     const controller = new AbortController();
     const getData = async () => {
       try {
         const response = await fetch(
-          "https://opentdb.com/api.php?amount=10&category=20&difficulty=easy&type=multiple",
+          `https://opentdb.com/api.php?amount=10&category=${selectedCategory}&difficulty=easy&type=multiple`,
           { signal: controller.signal }
         );
 
@@ -27,6 +55,10 @@ const Quiz = () => {
         const data = await response.json();
 
         setDataApi(data.results);
+        setCurrentIndex(0);
+        setSelectedAnswer(null);
+        setIsAnswered(false);
+        setIsCorrectAnswer(0);
       } catch (error) {
         if (error.name !== "AbortError") {
           console.error(error);
@@ -39,7 +71,7 @@ const Quiz = () => {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [selectedCategory]);
 
   const currentQuestion = dataApi[currentIndex];
 
@@ -78,13 +110,14 @@ const Quiz = () => {
     return <p className="loading">Loading questions ...</p>;
   }
 
-  const allQuestionsDone = currentIndex >= dataApi.length - 1;
+  const allQuestionsDone = currentIndex >= dataApi.length;
 
   const restartQuiz = () => {
     setCurrentIndex(0);
     setSelectedAnswer(null);
     setIsAnswered(false);
     setIsCorrectAnswer(0);
+    setCategoryLocked(false);
   };
 
   return (
@@ -93,6 +126,23 @@ const Quiz = () => {
         <>
           <h1>Question {currentIndex + 1}</h1>
           <Question currentQuestion={currentQuestion} />
+          <div className="select">
+            <label>Choose a category: </label>
+            <select
+              value={selectedCategory}
+              onChange={(event) => {
+                setSelectedCategory(Number(event.target.value));
+                setCategoryLocked(true);
+              }}
+              disabled={categoryLocked}
+            >
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <Answers
             shuffledAnswers={shuffledAnswers}
             selectedAnswer={selectedAnswer}
